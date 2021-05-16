@@ -7,6 +7,10 @@ it is an icon that does a moon or a sun when u click it
 
 u can do it as a svelte-component or web-component 
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+npm install rad-cool-light-dark-icon
+
 --------------------------------------------------------------
 
 <script src="dist/index.js" />
