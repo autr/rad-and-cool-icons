@@ -1,0 +1,41 @@
+{
+  "name": "ezelte",
+  "description": "ezipe web-components",
+  "version": "1.0.0",
+  "module": "dist/index.mjs",
+  "main": "dist/index.js",
+  "keywords": [
+    "svelte",
+    "web-components",
+    "library",
+    "ezapi",
+    "ezlib",
+    "ezelte",
+    "ezipe",
+    "eze",
+    "ezeze"
+  ],
+  "scripts": {
+    "start": "live-server dist",
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^17.1.0",
+    "@rollup/plugin-node-resolve": "^11.2.1",
+    "fetcheriser": "^1.0.4",
+    "query-string": "^7.0.0",
+    "rollup": "^2.47.0",
+    "rollup-plugin-bundle-size": "^1.0.3",
+    "rollup-plugin-css-only": "^3.1.0",
+    "rollup-plugin-livereload": "^2.0.0",
+    "rollup-plugin-svelte": "^7.1.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "sirv-cli": "^1.0.11",
+    "svelte": "^3.38.2"
+  },
+  "files": [
+    "dist"
+  ]
+}
