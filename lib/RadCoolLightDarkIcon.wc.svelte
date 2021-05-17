@@ -28,6 +28,11 @@
 		return d
 	}
 	
+	let class_ = ""
+	export { class_ as class }
+	let style_ = ""
+	export { style_ as style }
+
 	export let amount = 10
 	export let width = 200
 	export let height = 200
@@ -97,6 +102,10 @@
 		ray_ds = neu
 	}
 	
+
+	function onClick( e ) {
+		dark = !dark
+	}
 </script>
 
 
@@ -106,7 +115,9 @@
 	class:light={!dark}
 	{width} 
 	{height} 
-	on:click={ e => dark = !dark}>{dark ? 'dark' : 'light'}>
+	class={class_}
+	style={style_}
+	on:click={ onClick }>{dark ? 'dark' : 'light'}>
 	<defs>
 		<mask id="coollightdarkicon-mask-cresent">
 			<rect width="100%" height="100%" fill="white"/>
