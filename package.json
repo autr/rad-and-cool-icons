@@ -1,5 +1,5 @@
 {
-  "name": "rad-and-cool-light-dark-icon",
+  "name": "rad-and-cool-icons",
   "description": "rad and cool light dark icon 4 u",
   "version": "1.0.1",
   "module": "dist/index.mjs",
@@ -16,7 +16,7 @@
     "ezeze"
   ],
   "scripts": {
-    "start": "live-server dist",
+    "start": "PORT=8001 live-server dist",
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "prepublishOnly": "npm run build"
