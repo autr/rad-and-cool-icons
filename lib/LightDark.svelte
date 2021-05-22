@@ -21,6 +21,9 @@
 	export let center = { x: 100, y: 100 }
 	export let origin 
 	export let state = false
+	export let id
+
+
 
 	// custom
 
@@ -59,11 +62,13 @@
 		inited = true
 	})
 
+	let updating = false
+
 	function onDarkChange( dark_ ) {
 		if (browser && storage && inited) {
 			console.log(`🌖🌞  setting dark mode: ${$dark}`)
 			window.localStorage.setItem( darkKey, $dark )
-			state = dark_
+			if (!updating) state = dark_
 
 		}
 	}
@@ -73,6 +78,13 @@
 
 	$: onDarkChange( $dark )
 
+	function onStateChange( state_ ) {
+		updating = true
+		$dark = state_
+		updating = true
+	}
+
+	$: onStateChange( state )
 
 
 	
@@ -101,7 +113,7 @@
 	$: update( $dark )
 
 	$: rotate = {
-		transform: `rotate(${$motion_rays * ((360/amount)*spin)} 0 0)`
+		style: `${origin}; transform: rotateZ(${$motion_rays * ((360/amount)*spin)}deg);`
 	}
 	
 	$: cresent = {
@@ -140,35 +152,25 @@
 	}
 </script>
 
-
-<svg 
-	class:dark={$dark}
-	class:light={!$dark}
-	{width} 
-	{height} 
-	class={class_}
-	style={style_}
-	on:click={ onClick }>
-	<defs>
-		<mask id="inner-mask">
-			<rect width="100%" height="100%" fill="white"/>
-			<circle {...cresent} fill="black" />
-		</mask>
-		<mask id="outer-mask">
-			<circle {...main} r={main.r + stroke} fill="white"/>
-		</mask>
-	</defs>
-	<g class="icon">
-		<g {...rotate} style={origin}>
-			{#each new Array( amount ) as null_, idx }
-				<path d={ray_ds[idx]} {...strokes} />
-			{/each}
-		</g>
-		<g mask="url(#outer-mask)">
-			<g mask="url(#inner-mask)" >
-				<circle {...main} r={main.r + (stroke / 2)} {...strokes}  />
-				<circle {...cresent} r={cresent.r + (stroke / 2)} {...strokes}  />
-			</g>
+<defs>
+	<mask id="inner-mask-{id}">
+		<rect width="100%" height="100%" fill="white"/>
+		<circle {...cresent} fill="black" />
+	</mask>
+	<mask id="outer-mask-{id}">
+		<circle {...main} r={main.r + stroke} fill="white"/>
+	</mask>
+</defs>
+<g class="icon">
+	<g {...rotate}>
+		{#each new Array( amount ) as null_, idx }
+			<path d={ray_ds[idx]} {...strokes} />
+		{/each}
+	</g>
+	<g mask="url(#outer-mask-{id})">
+		<g mask="url(#inner-mask-{id})" >
+			<circle {...main} r={main.r + (stroke / 2)} {...strokes}  />
+			<circle {...cresent} r={cresent.r + (stroke / 2)} {...strokes}  />
 		</g>
 	</g>
-</svg>
+</g>

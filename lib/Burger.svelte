@@ -2,7 +2,7 @@
 	
 	import util from './util.js'
 	import { dark } from './stores.js'
-	import { tweened } from 'svelte/motion';
+	import { tweened } from 'svelte/motion'
 	import { onMount } from 'svelte'
 
 	let class_ = ""
@@ -52,22 +52,15 @@
 </script>
 
 
-<svg 
-	on:click={ e => state = !state }
-	{width} 
-	{height} 
-	class={class_}
-	style={style_}>
-	<defs>
-		<mask id="outer-mask">
-			<rect width="100%" height="100%" fill="black"/>
-			<circle {...mask} fill="white" />
-		</mask>
-	</defs>
-	<circle {...circle}  {...strokes} />
-	<g mask="url(#outer-mask)" {...transform} style={origin}>
-		{#each (new Array(3)) as n, i}
-			<path d="M0 {position(i)} L{width} {position(i)}" {...strokes} />
-		{/each}
-	</g>
-</svg>
+<defs>
+	<mask id="burger-mask-mask">
+		<rect width="100%" height="100%" fill="black"/>
+		<circle {...mask} fill="white" />
+	</mask>
+</defs>
+<circle {...circle}  {...strokes} />
+<g mask="url(#burger-mask-mask)" {...transform} style={origin}>
+	{#each (new Array(3)) as n, i}
+		<path d="M0 {position(i)} L{width} {position(i)}" {...strokes} />
+	{/each}
+</g>

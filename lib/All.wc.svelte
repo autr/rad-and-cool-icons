@@ -1,11 +1,15 @@
 <svelte:options tag="rad-cool-icons" />
 
 <script>
+	import * as easingFunctions from 'svelte/easing'
+
 	import LightDark from './LightDark.svelte'
 	import Burger from './Burger.svelte'
 	import Mail from './Mail.svelte'
 	import Arrow from './Arrow.svelte'
-	import * as easingFunctions from 'svelte/easing';
+	import PlayPause from './PlayPause.svelte'
+	import Audio from './Audio.svelte'
+	import Randomise from './Randomise.svelte'
 	
 
 	let class_ = ""
@@ -22,14 +26,18 @@
 	export let hover = false
 	export let misc = {}
 	export let type = 'light-dark'
-	export let state = false
+	export let state = true
+	export let id = 'unique-' + parseInt(Math.random() * 1000)
 
 
 	let components = {
 		'light-dark': LightDark,
 		'burger': Burger,
 		'mail': Mail,
-		'arrow': Arrow
+		'arrow': Arrow,
+		'play-pause': PlayPause,
+		'audio': Audio,
+		'randomise': Randomise
 	}
 
 
@@ -42,22 +50,40 @@
 		'stroke': color,
 		'vector-effect': 'non-scaling-stroke'
 	}
-	const origin = 'transform-box: fill-box;transform-origin: center'
+	const origin = 'transform-box: fill-box;transform-origin: center center;'
 
 
 	const DEBUG = false
 
+	$: w = parseInt( width )
+	$: h = parseInt( height )
+
 </script>
-<svelte:component 
-	this={components[type]} 
-	{...$$props} 
-	{...misc} 
-	{strokes} 
-	easing={easingFunctions[easing]} 
-	{browser} 
-	{center}
-	{origin}
-	style={ DEBUG ? 'border:1px solid red' : ''}
-	bind:state={state} />
+<svg 
+	xmlns="http://www.w3.org/2000/svg" 
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	on:click={ e => state = !state }
+	width={ w + (stroke*2)}
+	height={h + (stroke*2)}
+	alt={type}
+	title={type}
+	class={class_ + ' rad-and-cool ' + type}
+	style={style_}>
+	<g transform="translate( {stroke}, {stroke} )">
+		<svelte:component 
+			this={components[type]} 
+			{...$$props} 
+			{...misc} 
+			{strokes} 
+			easing={easingFunctions[easing]} 
+			{browser} 
+			{center}
+			{origin}
+			width={w}
+			height={h}
+			style={ DEBUG ? 'border:1px solid red' : ''}
+			bind:state={state} />
+	</g>
+</svg>
 
 {#if DEBUG}<div>{state}</div>{/if}

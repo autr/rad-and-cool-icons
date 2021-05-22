@@ -69,22 +69,15 @@
 </script>
 
 
-<svg 
-	on:click={ e => state = !state }
-	{width} 
-	{height} 
-	class={class_}
-	style={style_}>
-	<defs>
-		<mask id="mail-mask">
-			<rect width="100%" height="100%" fill="black"/>
-			<rect {...mask} fill="white" />
-		</mask>
-	</defs>
-	<g mask="url(#mail-mask)" >
-		<rect {...rect} {...strokes} />
-		{#each paths as path}
-			<path d={path} {...strokes} />
-		{/each}
-	</g>
-</svg>
+<defs>
+	<mask id="mail-mask">
+		<rect width="100%" height="100%" fill="black"/>
+		<rect {...mask} fill="white" />
+	</mask>
+</defs>
+<g mask="url(#mail-mask)" >
+	<rect {...rect} {...strokes} />
+	{#each paths as path}
+		<path d={path} {...strokes} />
+	{/each}
+</g>

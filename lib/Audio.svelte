@@ -21,37 +21,46 @@
 	export let center = { x: 100, y: 100 }
 	export let origin 
 	export let state // for outside observation
-	const tween = ( init ) => tweened( init, { duration: duration , easing })
 
-	let rotate = 0
+	export let thick = 0.3333
 
-	const size = 0.85
-	$: circle = {
-		cx: (width * size) - stroke,
-		cy: height/2, 
-		r: Math.max(width,height) * (1 - size), 
-		...strokes
+
+
+	$: rect = {
+		width: width * thick,
+		height,
+		y: 0,
+		x: 0
 	}
+
 </script>
 
 <defs>
-	<mask id="arrow-mask">
-		<rect width="100%" height="100%" fill="white"/>
-		<circle {...circle} fill="black" />
-	</mask>
 </defs>
-
-<g style={`${origin}; transform: rotateZ(${parseInt(rotate * 90)}deg); translate3d(0, 0, 0);`}>
-	<circle {...circle}  />
-	<g mask="url(#arrow-mask)">
+{#if state}
+	<path d={`
+		${util.describe_arc(width/2,height/2,Math.max(width,height)*0.5,20, 160)}
+	`} {...strokes} />
+	<path d={`
+		${util.describe_arc(width/2,height/2,Math.max(width,height)*0.3,20, 160)}
+	`} {...strokes} />
+{:else}
+	<g>
 		<path d={`
-			M${width/2} ${stroke}
-			L${stroke} ${height/2}
-			L${width/2} ${height-stroke}
+			M0 0
+			L${width} ${height}
 		`} {...strokes} />
 		<path d={`
-			M${stroke} ${height/2}
-			L${width-stroke} ${height/2}
+			M0 ${height}
+			L${width} 0
 		`} {...strokes} />
 	</g>
+{/if}
+<g>
+	<path style={origin} transform="scale( 1 0.7 )" d={`
+		M0 ${height/2}
+		L${width/2} 0
+		L${width/2} ${height}
+		z
+	`} {...strokes} />
 </g>

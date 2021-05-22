@@ -21,15 +21,34 @@
 	export let center = { x: 100, y: 100 }
 	export let origin 
 	export let state // for outside observation
-	const tween = ( init ) => tweened( init, { duration: duration , easing })
+
+	export let thick = 0.3333
+
+	$: bit = ((stroke%2)/2)
+	$: rect = {
+		width: parseInt(width * thick),
+		height,
+		y: bit,
+		x: bit
+	}
 
 </script>
 
 
 <defs>
-	<mask id="template-mask">
-	</mask>
 </defs>
-
-<g mask="url(#template-mask)" >
-</g>
+{#if state}
+	<g>
+		<rect {...rect} {...strokes} />
+		<rect {...rect} {...strokes} x={ width - parseInt(width * thick) + bit } />
+	</g>
+{:else}
+	<g>
+		<path d={`
+			M0 0 
+			L${width} ${height/2}
+			L0 ${height} 
+			z
+		`} {...strokes} />
+	</g>
+{/if}
