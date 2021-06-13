@@ -37,6 +37,8 @@
 	export let spin = 1
 
 
+	const sys = e => window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches || false
+
 	const darkKey = browser ? window.location.host + '-darkmode' : undefined
 
 	function initDark() {
@@ -45,7 +47,12 @@
 		try {
 			out = browser ? eval( window.localStorage.getItem( darkKey ) ) : undefined
 		} catch( err) {}
-		if ( browser && out != true && out != false ) out = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches || false
+		if ( browser && out != true && out != false ) out = sys()
+
+		if ( browser ) {
+			const link = document.querySelector('link#favicon')
+			link.href = `/favicon-${ sys() ? 'dark' : 'light' }.ico`
+		}
 
 		console.log(`🌖🌞  loading dark mode: ${out}`)
 		return out
@@ -65,9 +72,17 @@
 	let updating = false
 
 	function onDarkChange( dark_ ) {
-		if (browser && storage && inited) {
-			console.log(`🌖🌞  setting dark mode: ${$dark}`)
-			window.localStorage.setItem( darkKey, $dark )
+
+		if (browser && storage) {
+			if (inited) {
+				if (sys() === $dark) {
+					console.log(`🌖🌞  clearing localStorage to system default: ${$dark}`)
+					window.localStorage.removeItem( darkKey )
+				} else {
+					console.log(`🌖🌞  overriding dark mode with localStorage: ${$dark}`)
+					window.localStorage.setItem( darkKey, $dark )
+				}
+			}
 			if (!updating) state = dark_
 
 		}

@@ -2,7 +2,7 @@
 	
 	import util from './util.js'
 	import { dark } from './stores.js'
-	import { tweened } from 'svelte/motion';
+	import { tweened } from 'svelte/motion'
 	import { onMount } from 'svelte'
 
 	let class_ = ""
@@ -25,7 +25,7 @@
 
 	let rotate = 0
 
-	const size = 0.85
+	const size = 0.95
 	$: circle = {
 		cx: (width * size) - stroke,
 		cy: height/2, 
