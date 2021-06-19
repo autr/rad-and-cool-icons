@@ -1,7 +1,6 @@
 <script>
 	
 	import util from './util.js'
-	import { dark } from './stores.js'
 	import { tweened } from 'svelte/motion';
 	import { onMount } from 'svelte'
 
@@ -10,6 +9,7 @@
 	let style_ = ""
 	export { style_ as style }
 
+	
 	export let width = 200
 	export let height = 200
 	export let stroke = 2
@@ -61,8 +61,7 @@
 	let inited = false
 
 	if (browser) {
-		$dark = initDark() 
-		state = $dark
+		state = initDark() 
 	}
 
 	onMount( async e => {
@@ -71,19 +70,19 @@
 
 	let updating = false
 
-	function onDarkChange( dark_ ) {
+	function onDarkChange( state_ ) {
 
 		if (browser && storage) {
 			if (inited) {
-				if (sys() === $dark) {
-					console.log(`🌖🌞  clearing localStorage to system default: ${$dark}`)
+				if (sys() === state) {
+					console.log(`🌖🌞  clearing localStorage to system default: ${state}`)
 					window.localStorage.removeItem( darkKey )
 				} else {
-					console.log(`🌖🌞  overriding dark mode with localStorage: ${$dark}`)
-					window.localStorage.setItem( darkKey, $dark )
+					console.log(`🌖🌞  overriding dark mode with localStorage: ${state}`)
+					window.localStorage.setItem( darkKey, state )
 				}
 			}
-			if (!updating) state = dark_
+			if (!updating) state = state_
 
 		}
 	}
@@ -91,12 +90,11 @@
 		if (browser && storage) window.localStorage.removeItem( darkKey )
 	}
 
-	$: onDarkChange( $dark )
+	$: onDarkChange( state )
 
 	function onStateChange( state_ ) {
 		updating = true
-		$dark = state_
-		updating = true
+		updating = false
 	}
 
 	$: onStateChange( state )
@@ -109,8 +107,8 @@
 	let motion_shrink = tweened( 1, { duration, easing })
 	let motion_rays = tweened( 0, { duration, easing })
 	
-	function update(dark_) {
-		if ($dark) {
+	function update(state_) {
+		if (state) {
 			motion_x.set( offset.x )
 			motion_y.set( offset.y )
 			motion_r.set( offset.r )
@@ -125,7 +123,7 @@
 		}
 	}
 	let ray_ds = []
-	$: update( $dark )
+	$: update( state )
 
 	$: rotate = {
 		style: `${origin}; transform: rotateZ(${$motion_rays * ((360/amount)*spin)}deg);`
@@ -161,10 +159,6 @@
 		ray_ds = neu
 	}
 	
-
-	function onClick( e ) {
-		$dark = !$dark
-	}
 </script>
 
 <defs>
