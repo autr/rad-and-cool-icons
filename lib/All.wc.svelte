@@ -10,6 +10,7 @@
 	import PlayPause from './PlayPause.svelte'
 	import Audio from './Audio.svelte'
 	import Randomise from './Randomise.svelte'
+	import Custom from './Custom.svelte' 
 	
 
 	let class_ = ""
@@ -17,29 +18,38 @@
 	let style_ = ""
 	export { style_ as style }
 
+	// core
+
 	export let width = 200
 	export let height = 200
 	export let stroke = 2
-	export let easing = "cubicOut"
 	export let color = "#efefef"
+
+	// extra stuff
+
+	export let easing = "cubicOut"
 	export let duration = 1000 
 	export let hover = false
 	export let misc = {}
-	export let type = 'light-dark'
+	export let type = 'custom'
 	export let state = true
 	export let id = 'unique-' + parseInt(Math.random() * 1000)
-
 
 	let components = {
 		'light-dark': LightDark,
 		'burger': Burger,
 		'mail': Mail,
 		'arrow': Arrow,
-		'play-pause': PlayPause,
+		'play-pause': PlayPause, 
 		'audio': Audio,
-		'randomise': Randomise
+		'randomise': Randomise,
+		'custom': Custom
 	}
 
+	export let line = (x1, y1, x2, y2) => {
+	    const args = {x1,y2,x2,y2}
+	    return `<line ${Object.keys(args).map( a => `${a}="${args[a]}"`).join(' ')} />`
+	}
 
 
 	$: center = ({ x: width/2, y: height/2 })
@@ -82,7 +92,9 @@
 			width={w}
 			height={h}
 			style={ DEBUG ? 'border:1px solid red' : ''}
-			bind:state={state} />
+			bind:state={state}>
+			<slot />
+		</svelte:component>
 	</g>
 </svg>
 

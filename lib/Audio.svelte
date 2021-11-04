@@ -1,7 +1,7 @@
 <script>
 	
 	import util from './util.js'
-	import { dark } from './stores.js'
+	
 	import { tweened } from 'svelte/motion';
 	import { onMount } from 'svelte'
 

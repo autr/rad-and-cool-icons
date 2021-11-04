@@ -1,7 +1,7 @@
 {
   "name": "rad-and-cool-icons",
   "description": "rad and cool light dark icon 4 u",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "module": "dist/index.mjs",
   "main": "dist/index.js",
   "svelte": "lib/index.js",
