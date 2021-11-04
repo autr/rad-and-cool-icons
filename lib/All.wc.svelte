@@ -67,7 +67,7 @@
 	height={h + (stroke*2)}
 	alt={type}
 	title={type}
-	class={class_ + ' rad-and-cool ' + type}
+	class={class_ + ' rad-and-cool pointer ' + type}
 	style={style_}>
 	<g transform="translate( {stroke}, {stroke} )">
 		<svelte:component 
